@@ -14,7 +14,7 @@ async function create(ctx) {
     ctx.body = await User.create(body)
     ctx.status = 201
   } catch (err) {
-    ctx.status = err.status || 400
-    ctx.body = { message: err.message }
+    err.status = err.status || 400
+    throw err
   }
 }
