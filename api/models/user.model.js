@@ -49,7 +49,8 @@ module.exports = User
 async function preSave(next) {
   if (!this.isModified('password')) return next()
   try {
-    this.password = await bcrypt.hash(this.password, SALT_WORK_FACTOR)
+    const salt = await bcrypt.genSalt(Number(SALT_WORK_FACTOR))
+    this.password = await bcrypt.hash(this.password, salt)
     next()
   } catch (err) {
     next(err)
