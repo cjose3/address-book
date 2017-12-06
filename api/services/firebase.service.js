@@ -15,9 +15,5 @@ function generateToken(user) {
 function createContact(user, contact) {
   const ref = firebase.database().ref(`users/${user.id}`)
   const contactRef = ref.child('contacts')
-  return async() => {
-    contactRef.push().set(contact, err => {
-      return err ? Promise.reject(err) : Promise.resolve()
-    })
-  }
+  contactRef.push().set(contact)
 }

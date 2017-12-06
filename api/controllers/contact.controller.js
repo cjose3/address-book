@@ -10,7 +10,7 @@ module.exports = { create }
 
 async function create(ctx) {
   try {
-    await firebaseService.createContact(ctx.user, ctx.request.body)
+    firebaseService.createContact(ctx.user, ctx.request.body)
     ctx.status = 201
   } catch (err) {
     err.status = err.status || 400
