@@ -17,16 +17,13 @@ passport.use(localStrategy)
 // ------------------------------------------------------------------
 
 function callback(email, password, done) {
-  console.log('User', User)
-  const p = User.findOne({ email })
-  console.log('p', p)
-
-  done(null, { email: 'cj@cj.cj' })
-  // .then(user => {
-  //   if (!user || !user.validatePassword(password)) {
-  //     done(null, false)
-  //   }
-  //   done(user)
-  // })
-  // .catch(err => done(err))
+  User.findOne({ email })
+    .then(user => {
+      if (!user || !user.validatePassword(password)) {
+        done(null, false)
+      } else {
+        done(null, user)
+      }
+    })
+    .catch(err => done(err))
 }

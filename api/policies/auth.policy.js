@@ -8,12 +8,13 @@ module.exports = policy
 // ------------------------------------------------------------------
 // ------------------------------------------------------------------
 
-function policy(ctx, next) {
-  passport.authenticate('local', (err, user) => {
+async function policy(ctx, next) {
+  await passport.authenticate('local', (err, user) => {
     if (err || !user) {
       ctx.status = 401
+    } else {
+      ctx.user = user
+      next()
     }
-    ctx.user = user
-    next()
   })(ctx, next)
 }
