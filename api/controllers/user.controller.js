@@ -11,10 +11,10 @@ module.exports = { create }
 async function create(ctx) {
   const { body } = ctx.request
   try {
-    const user = new User(body)
-    ctx.body = await user.save()
+    ctx.body = await User.create(body)
     ctx.status = 201
   } catch (err) {
-    ctx.status = 400
+    ctx.status = err.status || 400
+    ctx.body = { message: err.message }
   }
 }

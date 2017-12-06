@@ -19,11 +19,10 @@ passport.use(localStrategy)
 function callback(email, password, done) {
   User.findOne({ email })
     .then(user => {
-      if (!user || !user.validatePassword(password)) {
-        done(null, false)
-      } else {
-        done(null, user)
-      }
+      if (!user) throw new Error('The email not exists')
+      const promises = [user, user.validatePassword(password)]
+      return Promise.all(promises)
     })
-    .catch(err => done(err))
+    .then(([user]) => done(null, user))
+    .catch(done)
 }
