@@ -1,3 +1,5 @@
+const firebaseService = require('../services/firebase.service')
+
 module.exports = { create }
 
 // ------------------------------------------------------------------
@@ -6,6 +8,12 @@ module.exports = { create }
 // ------------------------------------------------------------------
 // ------------------------------------------------------------------
 
-function create(ctx) {
-  ctx.response.body = { message: 'contact created' }
+async function create(ctx) {
+  try {
+    await firebaseService.createContact(ctx.user, ctx.request.body)
+    ctx.status = 201
+  } catch (err) {
+    err.status = err.status || 400
+    throw err
+  }
 }
