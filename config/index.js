@@ -15,7 +15,7 @@ module.exports = { bootstrap }
 
 async function bootstrap(app) {
   await db.initialize(app)
-  await firebase.initialize()
+  firebase.initialize()
   app.use(errorHandler)
   app.use(requestLogger)
   app.use(passport)
