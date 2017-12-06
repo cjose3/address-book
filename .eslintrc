@@ -6,16 +6,23 @@
     "node": true
   },
 
-  "plugins": ["prettier", "standard"],
+  "plugins": [
+    "prettier",
+    "standard",
+    "node",
+    "import",
+    "promise"
+  ],
 
   "parserOptions": {
     "sourceType": "module",
-    "ecmaVersion": 2016
+    "ecmaVersion": 2017
   },
 
   "globals": {
   },
 
   "rules": {
+    "space-before-function-paren": ["error", "never"]
   }
 }

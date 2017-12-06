@@ -4,7 +4,9 @@
   "description": "The AddressBook app",
   "main": "server.js",
   "scripts": {
-    "start": "node server"
+    "start": "node app",
+    "dev": "nodemon app",
+    "format": "prettier api/**/*.js --write"
   },
   "repository": {
     "type": "git",
@@ -15,5 +17,31 @@
   "bugs": {
     "url": "https://gitlab.com/cjose3/kogi-address-book/issues"
   },
-  "homepage": "https://gitlab.com/cjose3/kogi-address-book#README"
+  "homepage": "https://gitlab.com/cjose3/kogi-address-book#README",
+  "engines": {
+    "node": ">= 8.9 < 9"
+  },
+  "dependencies": {
+    "cowsay": "^1.2.1",
+    "koa": "^2.4.1",
+    "koa-bodyparser": "^4.2.0",
+    "koa-logger": "^3.1.0",
+    "koa-passport": "^4.0.1",
+    "koa-router": "^7.3.0",
+    "mongoose": "^4.13.6",
+    "passport-jwt": "^3.0.1",
+    "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.12.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-prettier": "^2.3.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "nodemon": "^1.12.5",
+    "prettier": "^1.9.0"
+  }
 }
