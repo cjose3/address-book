@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node app",
     "dev": "nodemon app",
-    "format": "prettier api/**/*.js --write"
+    "prettier": "prettier '**/*.js' --write",
+    "eslint": "eslint . --fix",
+    "format": "npm run prettier && npm run eslint"
   },
   "repository": {
     "type": "git",
