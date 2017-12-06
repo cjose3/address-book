@@ -4,7 +4,7 @@ const config = require('./config')
 const api = require('./api')
 const { name: appName } = require('./package.json')
 
-start()
+module.exports = start()
 
 async function start() {
   const port = process.env.PORT || 1337
@@ -14,7 +14,7 @@ async function start() {
   await config.bootstrap(app)
   api.bootstrap(app)
 
-  app.listen(port, () => {
+  return app.listen(port, () => {
     const text = `The app ${appName} is running on port: ${port}`
     console.log(cowsay.say({ text }))
   })

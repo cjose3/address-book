@@ -1,0 +1,224 @@
+const chance = require('chance')()
+const app = require('../app')
+const chai = require('chai')
+const chaiHttp = require('chai-http')
+const { expect } = chai
+chai.use(chaiHttp)
+
+describe('Test of api routes', () => {
+  let server = {}
+  let request = {}
+
+  before(async() => {
+    server = await app
+    request = chai.request(server)
+  })
+
+  after(() => {
+    // TODO: clean database and close server
+  })
+
+  it('Create user successfully', done => {
+    const user = {
+      email: chance.email(),
+      password: chance.string({ length: 5 })
+    }
+    request
+      .post('/users')
+      .send(user)
+      .then(resp => {
+        expect(resp).to.have.status(201)
+        expect(resp.body).to.have.all.keys('_id', 'email')
+        expect(resp.body).to.not.have.any.keys('password', '__v')
+        done()
+      })
+      .catch(done)
+  })
+
+  it('Create duplicated user', done => {
+    const user = {
+      email: chance.email(),
+      password: chance.string({ length: 5 })
+    }
+    request
+      .post('/users')
+      .send(user)
+      .then(resp => {
+        expect(resp).to.have.status(201)
+        return request.post('/users').send(user)
+      })
+      .catch(err => {
+        expect(err).to.have.status(409)
+        done()
+      })
+  })
+
+  it('Create user without body', done => {
+    request
+      .post('/users')
+      .then(resp => {
+        expect(resp).to.be.null
+      })
+      .catch(err => {
+        expect(err).to.have.status(400)
+        done()
+      })
+  })
+
+  it('Create user with invalid email', done => {
+    const user = {
+      email: chance.string(),
+      password: chance.string({ length: 5 })
+    }
+    request
+      .post('/users')
+      .send(user)
+      .then(resp => {
+        expect(resp).to.be.null
+      })
+      .catch(err => {
+        expect(err).to.have.status(400)
+        done()
+      })
+  })
+
+  it('Create user with invalid password', done => {
+    const user = {
+      email: chance.email(),
+      password: chance.string({ length: 3 })
+    }
+    request
+      .post('/users')
+      .send(user)
+      .then(resp => {
+        expect(resp).to.be.null
+      })
+      .catch(err => {
+        expect(err).to.have.status(400)
+        done()
+      })
+  })
+
+  it('Authenticate successfully', done => {
+    const user = {
+      email: chance.email(),
+      password: chance.string({ length: 5 })
+    }
+    request
+      .post('/users')
+      .send(user)
+      .then(resp => {
+        expect(resp).to.have.status(201)
+        return request.post('/auth').send(user)
+      })
+      .then(resp => {
+        expect(resp).to.have.status(200)
+        expect(resp.body).to.have.all.keys('accessToken', 'firebaseToken')
+        done()
+      })
+      .catch(done)
+  })
+
+  it('Authenticate without credentials', done => {
+    request
+      .post('/auth')
+      .then(resp => {
+        expect(resp).to.be.null
+      })
+      .catch(err => {
+        expect(err).to.have.status(401)
+        done()
+      })
+  })
+
+  it('Authenticate with wrong email', done => {
+    const user = {
+      email: chance.email(),
+      password: chance.string({ length: 5 })
+    }
+    request
+      .post('/users')
+      .send(user)
+      .then(resp => {
+        expect(resp).to.have.status(201)
+        user.email = chance.email()
+        return request.post('/auth').send(user)
+      })
+      .then(resp => {
+        expect(resp).to.be.null
+      })
+      .catch(err => {
+        expect(err).to.have.status(401)
+        done()
+      })
+  })
+
+  it('Authenticate with wrong password', done => {
+    const user = {
+      email: chance.email(),
+      password: chance.string({ length: 5 })
+    }
+    request
+      .post('/users')
+      .send(user)
+      .then(resp => {
+        expect(resp).to.have.status(201)
+        user.password = chance.string()
+        return request.post('/auth').send(user)
+      })
+      .then(resp => {
+        expect(resp).to.be.null
+      })
+      .catch(err => {
+        expect(err).to.have.status(401)
+        done()
+      })
+  })
+
+  it('Create contact successfully', done => {
+    const user = {
+      email: chance.email(),
+      password: chance.string({ length: 5 })
+    }
+    const contact = {
+      name: chance.name(),
+      phone: chance.phone()
+    }
+    request
+      .post('/users')
+      .send(user)
+      .then(resp => {
+        expect(resp).to.have.status(201)
+        return request.post('/auth').send(user)
+      })
+      .then(resp => {
+        expect(resp).to.have.status(200)
+        return request
+          .post('/contacts')
+          .send(contact)
+          .set('Authorization', `Bearer ${resp.body.accessToken}`)
+      })
+      .then(resp => {
+        expect(resp).to.have.status(201)
+        done()
+      })
+      .catch(done)
+  })
+
+  it('Create contact without accessToken', done => {
+    const contact = {
+      name: chance.name(),
+      phone: chance.phone()
+    }
+    request
+      .post('/contacts')
+      .send(contact)
+      .then(resp => {
+        expect(resp).to.be.null
+      })
+      .catch(err => {
+        expect(err).to.have.status(401)
+        done()
+      })
+  })
+})

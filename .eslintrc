@@ -10,8 +10,8 @@
     "prettier",
     "standard",
     "node",
-    "import",
-    "promise"
+    "promise",
+    "mocha"
   ],
 
   "parserOptions": {
@@ -23,6 +23,7 @@
   },
 
   "rules": {
-    "space-before-function-paren": ["error", "never"]
+    "space-before-function-paren": ["error", "never"],
+    "mocha/no-exclusive-tests": "error"
   }
 }
