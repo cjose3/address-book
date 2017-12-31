@@ -19,6 +19,6 @@ function initialize(app) {
   })
 
   app.on('error', (err, ctx) => {
-    ctx.logger.error(err, ctx)
+    ctx.logger.error(err)
   })
 }
