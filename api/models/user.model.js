@@ -70,7 +70,6 @@ async function create(values) {
     const savedUser = await user.save()
     return User.findById(savedUser._id)
   } catch (err) {
-    if (!err.status) err.status = 400
     if (isDuplicateEmailError(err)) {
       err.status = 409
       err.message = 'The email is duplicated'
