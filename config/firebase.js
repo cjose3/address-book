@@ -19,6 +19,6 @@ function initialize() {
     clientEmail,
     privateKey
   })
-  firebase.initializeApp({ databaseURL, credential })
   console.log('- The connection to firebase is established')
+  return firebase.initializeApp({ databaseURL, credential })
 }

@@ -12,12 +12,12 @@ module.exports = { authenticate }
 async function authenticate(ctx) {
   try {
     ctx.body = {
-      accessToken: generateAccessToken(ctx.user),
-      firebaseToken: await firebaseService.generateToken(ctx.user)
+      accessToken: generateAccessToken(ctx.state.user),
+      firebaseToken: await firebaseService.generateToken(ctx.state.user)
     }
     ctx.status = 200
   } catch (err) {
-    err.status = err.status || 400
+    if (!err.status) err.status = 400
     throw err
   }
 }

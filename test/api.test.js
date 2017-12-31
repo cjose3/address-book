@@ -9,7 +9,7 @@ describe('Test of api routes', () => {
   let server = {}
   let request = {}
 
-  before(async() => {
+  before(async () => {
     server = await app
     request = chai.request(server)
   })
@@ -18,7 +18,7 @@ describe('Test of api routes', () => {
     // TODO: clean database and close server
   })
 
-  it('Create user successfully', done => {
+  it.skip('Create user successfully', done => {
     const user = {
       email: chance.email(),
       password: chance.string({ length: 5 })
@@ -30,12 +30,12 @@ describe('Test of api routes', () => {
         expect(resp).to.have.status(201)
         expect(resp.body).to.have.all.keys('_id', 'email')
         expect(resp.body).to.not.have.any.keys('password', '__v')
-        done()
+        return done()
       })
       .catch(done)
   })
 
-  it('Create duplicated user', done => {
+  it.skip('Create duplicated user', done => {
     const user = {
       email: chance.email(),
       password: chance.string({ length: 5 })
@@ -48,24 +48,32 @@ describe('Test of api routes', () => {
         return request.post('/users').send(user)
       })
       .catch(err => {
-        expect(err).to.have.status(409)
-        done()
+        try {
+          expect(err).to.have.status(409)
+          return done()
+        } catch (_err) {
+          return done(_err)
+        }
       })
   })
 
-  it('Create user without body', done => {
+  it.skip('Create user without body', done => {
     request
       .post('/users')
       .then(resp => {
         expect(resp).to.be.null
       })
       .catch(err => {
-        expect(err).to.have.status(400)
-        done()
+        try {
+          expect(err).to.have.status(400)
+          return done()
+        } catch (_err) {
+          return done(_err)
+        }
       })
   })
 
-  it('Create user with invalid email', done => {
+  it.skip('Create user with invalid email', done => {
     const user = {
       email: chance.string(),
       password: chance.string({ length: 5 })
@@ -77,12 +85,16 @@ describe('Test of api routes', () => {
         expect(resp).to.be.null
       })
       .catch(err => {
-        expect(err).to.have.status(400)
-        done()
+        try {
+          expect(err).to.have.status(400)
+          return done()
+        } catch (_err) {
+          return done(_err)
+        }
       })
   })
 
-  it('Create user with invalid password', done => {
+  it.skip('Create user with invalid password', done => {
     const user = {
       email: chance.email(),
       password: chance.string({ length: 3 })
@@ -94,12 +106,16 @@ describe('Test of api routes', () => {
         expect(resp).to.be.null
       })
       .catch(err => {
-        expect(err).to.have.status(400)
-        done()
+        try {
+          expect(err).to.have.status(400)
+          return done()
+        } catch (_err) {
+          return done(_err)
+        }
       })
   })
 
-  it('Authenticate successfully', done => {
+  it.skip('Authenticate successfully', done => {
     const user = {
       email: chance.email(),
       password: chance.string({ length: 5 })
@@ -114,24 +130,28 @@ describe('Test of api routes', () => {
       .then(resp => {
         expect(resp).to.have.status(200)
         expect(resp.body).to.have.all.keys('accessToken', 'firebaseToken')
-        done()
+        return done()
       })
       .catch(done)
   })
 
-  it('Authenticate without credentials', done => {
+  it.skip('Authenticate without credentials', done => {
     request
       .post('/auth')
       .then(resp => {
         expect(resp).to.be.null
       })
       .catch(err => {
-        expect(err).to.have.status(401)
-        done()
+        try {
+          expect(err).to.have.status(401)
+          return done()
+        } catch (_err) {
+          return done(_err)
+        }
       })
   })
 
-  it('Authenticate with wrong email', done => {
+  it.skip('Authenticate with wrong email', done => {
     const user = {
       email: chance.email(),
       password: chance.string({ length: 5 })
@@ -148,12 +168,16 @@ describe('Test of api routes', () => {
         expect(resp).to.be.null
       })
       .catch(err => {
-        expect(err).to.have.status(401)
-        done()
+        try {
+          expect(err).to.have.status(401)
+          return done()
+        } catch (_err) {
+          return done(_err)
+        }
       })
   })
 
-  it('Authenticate with wrong password', done => {
+  it.skip('Authenticate with wrong password', done => {
     const user = {
       email: chance.email(),
       password: chance.string({ length: 5 })
@@ -170,12 +194,16 @@ describe('Test of api routes', () => {
         expect(resp).to.be.null
       })
       .catch(err => {
-        expect(err).to.have.status(401)
-        done()
+        try {
+          expect(err).to.have.status(401)
+          return done()
+        } catch (_err) {
+          return done(_err)
+        }
       })
   })
 
-  it('Create contact successfully', done => {
+  it.skip('Create contact successfully', done => {
     const user = {
       email: chance.email(),
       password: chance.string({ length: 5 })
@@ -200,12 +228,12 @@ describe('Test of api routes', () => {
       })
       .then(resp => {
         expect(resp).to.have.status(201)
-        done()
+        return done()
       })
       .catch(done)
   })
 
-  it('Create contact without accessToken', done => {
+  it.skip('Create contact without accessToken', done => {
     const contact = {
       name: chance.name(),
       phone: chance.phone()
@@ -217,8 +245,48 @@ describe('Test of api routes', () => {
         expect(resp).to.be.null
       })
       .catch(err => {
-        expect(err).to.have.status(401)
+        try {
+          expect(err).to.have.status(401)
+          return done()
+        } catch (_err) {
+          return done(_err)
+        }
+      })
+  })
+
+  it('Create contact without body', done => {
+    const user = {
+      email: chance.email(),
+      password: chance.string({ length: 5 })
+    }
+    request
+      .post('/users')
+      .send(user)
+      .then(resp => {
+        expect(resp).to.have.status(201)
+        return request.post('/auth').send(user)
+      })
+      .then(resp => {
+        expect(resp).to.have.status(200)
+        return request
+          .post('/contacts')
+          .set('Authorization', `Bearer ${resp.body.accessToken}`)
+      })
+      .then(resp => {
+        expect(resp).to.have.status(200)
         done()
       })
+      .catch(done)
+      // .then(resp => {
+      //   expect(resp).to.have.null
+      // })
+      // .catch(err => {
+      //   try {
+      //     expect(err).to.have.status(400)
+      //     return done()
+      //   } catch (_err) {
+      //     return done(_err)
+      //   }
+      // })
   })
 })

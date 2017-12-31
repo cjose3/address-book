@@ -1,3 +1,5 @@
+const winston = require('winston')
+
 module.exports = { initialize }
 
 // ------------------------------------------------------------------
@@ -7,18 +9,9 @@ module.exports = { initialize }
 // ------------------------------------------------------------------
 
 function initialize(app) {
-  app.use(async(ctx, next) => {
-    try {
-      await next()
-    } catch (err) {
-      const { message } = err
-      ctx.status = err.status || 500
-      ctx.body = { message }
-      ctx.app.emit('error', err, ctx)
-    }
-  })
-
-  app.on('error', (err, ctx) => {
-    ctx.logger.error(err, ctx)
-  })
+  const level = app.env === 'production' ? 'info' : 'debug'
+  const transports = [
+    new winston.transports.Console()
+  ]
+  app.context.logger = winston.createLogger({ level, transports })
 }

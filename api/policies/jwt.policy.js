@@ -15,7 +15,7 @@ async function policy(ctx, next) {
       ctx.status = 401
       ctx.body = { message }
     } else {
-      ctx.user = user
+      ctx.state.user = user
       next()
     }
   })(ctx, next)
