@@ -9,14 +9,15 @@ module.exports = policy
 // ------------------------------------------------------------------
 
 async function policy(ctx, next) {
-  await passport.authenticate('jwt', (err, user) => {
+  const callback = async(err, user) => {
     if (err || !user) {
       const message = (err && err.message) || 'Invalid access token'
       ctx.status = 401
       ctx.body = { message }
     } else {
       ctx.state.user = user
-      next()
+      await next()
     }
-  })(ctx, next)
+  }
+  await passport.authenticate('jwt', callback)(ctx, next)
 }
