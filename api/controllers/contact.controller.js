@@ -10,7 +10,7 @@ module.exports = { create }
 
 async function create(ctx) {
   try {
-    await createContact(ctx.state.user, ctx.request.body)
+    ctx.body = await createContact(ctx.state.user, ctx.request.body)
     ctx.status = 201
   } catch (err) {
     if (!err.status) err.status = 400

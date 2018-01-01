@@ -12,8 +12,12 @@ function generateToken(user) {
   return firebase.auth().createCustomToken(user.id)
 }
 
-function createContact(user, contact) {
+function createContact(user, contact = {}) {
+  if (!Object.keys(contact).length) {
+    return Promise.reject(new Error('empty contact'))
+  }
   const ref = firebase.database().ref(`users/${user.id}`)
   const contactRef = ref.child('contacts')
-  return contactRef.push().set(contact)
+  const { key } = contactRef.push(contact)
+  return { key }
 }
