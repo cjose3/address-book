@@ -9,7 +9,7 @@ describe('Test of api routes', () => {
   let server = {}
   let request = {}
 
-  before(async () => {
+  before(async() => {
     server = await app
     request = chai.request(server)
   })
@@ -18,7 +18,7 @@ describe('Test of api routes', () => {
     // TODO: clean database and close server
   })
 
-  it.skip('Create user successfully', done => {
+  it('Create user successfully', done => {
     const user = {
       email: chance.email(),
       password: chance.string({ length: 5 })
@@ -35,7 +35,7 @@ describe('Test of api routes', () => {
       .catch(done)
   })
 
-  it.skip('Create duplicated user', done => {
+  it('Create duplicated user', done => {
     const user = {
       email: chance.email(),
       password: chance.string({ length: 5 })
@@ -57,7 +57,7 @@ describe('Test of api routes', () => {
       })
   })
 
-  it.skip('Create user without body', done => {
+  it('Create user without body', done => {
     request
       .post('/users')
       .then(resp => {
@@ -73,7 +73,7 @@ describe('Test of api routes', () => {
       })
   })
 
-  it.skip('Create user with invalid email', done => {
+  it('Create user with invalid email', done => {
     const user = {
       email: chance.string(),
       password: chance.string({ length: 5 })
@@ -94,7 +94,7 @@ describe('Test of api routes', () => {
       })
   })
 
-  it.skip('Create user with invalid password', done => {
+  it('Create user with invalid password', done => {
     const user = {
       email: chance.email(),
       password: chance.string({ length: 3 })
@@ -115,7 +115,7 @@ describe('Test of api routes', () => {
       })
   })
 
-  it.skip('Authenticate successfully', done => {
+  it('Authenticate successfully', done => {
     const user = {
       email: chance.email(),
       password: chance.string({ length: 5 })
@@ -135,7 +135,7 @@ describe('Test of api routes', () => {
       .catch(done)
   })
 
-  it.skip('Authenticate without credentials', done => {
+  it('Authenticate without credentials', done => {
     request
       .post('/auth')
       .then(resp => {
@@ -151,7 +151,7 @@ describe('Test of api routes', () => {
       })
   })
 
-  it.skip('Authenticate with wrong email', done => {
+  it('Authenticate with wrong email', done => {
     const user = {
       email: chance.email(),
       password: chance.string({ length: 5 })
@@ -177,7 +177,7 @@ describe('Test of api routes', () => {
       })
   })
 
-  it.skip('Authenticate with wrong password', done => {
+  it('Authenticate with wrong password', done => {
     const user = {
       email: chance.email(),
       password: chance.string({ length: 5 })
@@ -203,7 +203,7 @@ describe('Test of api routes', () => {
       })
   })
 
-  it.skip('Create contact successfully', done => {
+  it('Create contact successfully', done => {
     const user = {
       email: chance.email(),
       password: chance.string({ length: 5 })
@@ -233,7 +233,7 @@ describe('Test of api routes', () => {
       .catch(done)
   })
 
-  it.skip('Create contact without accessToken', done => {
+  it('Create contact without accessToken', done => {
     const contact = {
       name: chance.name(),
       phone: chance.phone()
@@ -273,20 +273,15 @@ describe('Test of api routes', () => {
           .set('Authorization', `Bearer ${resp.body.accessToken}`)
       })
       .then(resp => {
-        expect(resp).to.have.status(200)
-        done()
+        expect(resp).to.be.null
       })
-      .catch(done)
-      // .then(resp => {
-      //   expect(resp).to.have.null
-      // })
-      // .catch(err => {
-      //   try {
-      //     expect(err).to.have.status(400)
-      //     return done()
-      //   } catch (_err) {
-      //     return done(_err)
-      //   }
-      // })
+      .catch(err => {
+        try {
+          expect(err).to.have.status(400)
+          return done()
+        } catch (_err) {
+          return done(_err)
+        }
+      })
   })
 })
