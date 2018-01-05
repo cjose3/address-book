@@ -9,8 +9,7 @@ module.exports = { initialize }
 // ------------------------------------------------------------------
 
 async function initialize(app) {
-  const uri =
-    process.env.MONGODB_URI || `mongodb://localhost/${app.context.appName}`
+  const uri = process.env.MONGODB_URI
   const options = {
     useMongoClient: true
   }

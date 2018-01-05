@@ -1,6 +1,25 @@
-version: 3
+version: "3"
 services:
+  db:
+    image: mongo
+    ports:
+      - 27017:27017
+
   app:
     build: .
-    port: 8080:1337
-    link: mongo
+    command: npm run dev
+    ports:
+      - 1337:1337
+    volumes:
+      - .:/home/node/app
+      - /home/node/app/node_modules
+    env_file:
+      - .env
+    environment:
+       - MONGODB_URI=mongodb://db/address-book
+    links:
+      - db
+    depends_on:
+      - db
+
+
