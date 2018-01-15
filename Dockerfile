@@ -1,27 +1,22 @@
 FROM node:carbon-alpine
 
-ENV HOME=/home/node/app
+ENV SRC_PATH=/usr/src/app
 
-RUN apk --no-cache add --virtual native-deps \
-  g++ gcc libgcc libstdc++ linux-headers make python && \
-  npm install --quiet node-gyp -g &&\
-  mkdir -p ${HOME} && \
-  chown -R node:node ${HOME}
-
-WORKDIR ${HOME}
+WORKDIR ${SRC_PATH}
 
 COPY package*.json ./
-RUN chown -R node:node ./*
 
-
-USER node
-RUN npm install
-USER root
-
-RUN apk del native-deps
+RUN apk --no-cache add --virtual .build-deps \
+  g++ gcc libgcc libstdc++ linux-headers make python && \
+  npm install --quiet node-gyp -g && \
+  chown -R node:node ${SRC_PATH} && \
+  chown -R node:node ./* && \
+  su node -c 'npm install' && \
+  npm rebuild bcrypt --build-from-source && \
+  npm cache clean --force && \
+  apk del .build-deps
 
 COPY . ./
-RUN chown -R node:node $HOME/*
 
 USER node
 CMD [ "node", "app.js" ]
