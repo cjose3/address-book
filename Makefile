@@ -1,19 +1,19 @@
 build: ;@docker-compose build
 
-up: ;@docker-compose up
+up: ;@make build && \
+  docker-compose up
 
-start: ;@docker-compose run app \
-	npm start
+start: ;@make build && \
+  docker-compose run app npm start
 
-dev: ;@docker-compose run app \
-	npm run dev
+dev: ;@make build && \
+  docker-compose run app npm run dev
 
 test: ;@make build && \
-  docker-compose run app \
-	npm test
+  docker-compose run app npm test
 
-format: ;@docker-compose run --no-deps app \
-	npm run format && \
+format: ;@make build && \
+  docker-compose run --no-deps app npm run format && \
 	docker-compose stop
 
 stop: ;@docker-compose stop
