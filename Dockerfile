@@ -1,6 +1,8 @@
 FROM node:carbon-alpine
 
-ENV SRC_PATH=/usr/src/app
+ARG NODE_ENV=development
+ENV NODE_ENV=${NODE_ENV} \
+  SRC_PATH=/usr/src/app
 
 WORKDIR ${SRC_PATH}
 
