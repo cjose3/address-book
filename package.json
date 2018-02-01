@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@gitlab.com/cjose3/kogi-address-book.git"
+    "url": "git@github.com:cjose3/address-book.git"
   },
   "author": "Carlos Marcano",
   "license": "ISC",
   "bugs": {
-    "url": "https://gitlab.com/cjose3/kogi-address-book/issues"
+    "url": "https://github.com/cjose3/address-book/issues"
   },
-  "homepage": "https://gitlab.com/cjose3/kogi-address-book#README",
+  "homepage": "https://github.com/cjose3/address-book",
   "engines": {
     "node": ">= 8.9 < 9"
   },
