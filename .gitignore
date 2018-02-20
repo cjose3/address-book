@@ -1,89 +1,105 @@
-# Created by http://gitignore.io
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
 
-### Windows ###
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
+# C extensions
+*.so
 
-# Folder config file
-Desktop.ini
-
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
-
-### Linux ###
-.*
-!.gitignore
-!.git*
-*~
-
-
-### OSX ###
-.DS_Store
-.AppleDouble
-.LSOverride
-Icon
-
-
-# Thumbnails
-._*
-
-# Files that might appear on external disk
-.Spotlight-V100
-.Trashes
-
-### Java ###
-*.class
-
-# Package Files #
-*.jar
-*.war
-*.ear
-
-### Gradle ###
-# Exclude Folder List #
-.gradle/
+# Distribution / packaging
+.Python
 build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
 
-### Eclipse ###
-*.pydevproject
-.project
-.metadata
-bin/**
-tmp/**
-tmp/**/*
-*.tmp
-*.bak
-*.swp
-*~.nib
-local.properties
-.classpath
-.settings/
-.loadpath
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
 
-# External tool builders
-.externalToolBuilders/
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
 
-# Locally stored "Eclipse launch configurations"
-*.launch
+# Translations
+*.mo
+*.pot
 
-# CDT-specific
-.cproject
+# Django stuff:
+*.log
+.static_storage/
+.media/
+local_settings.py
 
-# PDT-specific
-.buildpath
+# Flask stuff:
+instance/
+.webassets-cache
 
-### IntelliJ ###
-*.iml
-*.ipr
-*.iws
-.idea/
+# Scrapy stuff:
+.scrapy
 
-### SVN ###
-.svn/
+# Sphinx documentation
+docs/_build/
 
-### Maven ###
+# PyBuilder
 target/
 
-/bin
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# celery beat schedule file
+celerybeat-schedule
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
