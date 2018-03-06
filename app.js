@@ -7,7 +7,7 @@ const { name: appName } = require('./package.json')
 module.exports = start()
 
 async function start() {
-  const port = process.env.PORT || 1337
+  const port = process.env.PORT
   const app = new Koa()
   app.context.appName = appName
 

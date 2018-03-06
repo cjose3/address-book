@@ -3,7 +3,7 @@ const { Strategy, ExtractJwt } = require('passport-jwt')
 const User = require('../models/user.model')
 
 const opts = {
-  secretOrKey: process.env.JWT_SECRET || 'jwt-secret',
+  secretOrKey: process.env.JWT_SECRET,
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken()
 }
 const jwtStrategy = new Strategy(opts, callback)

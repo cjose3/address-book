@@ -23,7 +23,7 @@ async function authenticate(ctx) {
 }
 
 function generateAccessToken(user) {
-  const secret = process.env.JWT_SECRET || 'jwt-secret'
+  const secret = process.env.JWT_SECRET
   const data = { sub: user._id }
   const opts = { expiresIn: '1h' }
   return jwt.sign(data, secret, opts)

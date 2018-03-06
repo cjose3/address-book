@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcrypt')
 
-const SALT_WORK_FACTOR = process.env.SALT_WORK_FACTOR || 10
+const SALT_WORK_FACTOR = process.env.SALT_WORK_FACTOR
 
 const schema = new mongoose.Schema({
   email: {
