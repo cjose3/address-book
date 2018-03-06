@@ -1,24 +1,27 @@
 version: "3"
+
 services:
-  db:
-    image: mongo
-    ports:
-      - 27017:27017
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    networks:
+      - addressbook
 
   app:
     build: .
+    container_name: app
+    networks:
+      - addressbook
     ports:
-      - 1337:1337
+      - 1337
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     env_file:
       - .env
-    environment:
-       - MONGODB_URI=mongodb://db/address-book
-    links:
-      - db
     depends_on:
-      - db
+      - mongodb
 
-
+networks:
+  addressbook:
+    driver: bridge
